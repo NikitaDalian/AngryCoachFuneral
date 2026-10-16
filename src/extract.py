@@ -20,7 +20,7 @@ BOT = "8652442090"
 NAMES = {
     "23942556": "Никита Федоров", "58811221": "Лев Грин", "24905927": "Сергей Медведев",
     "2897263": "Александр (mrb8r)", "156212094": "Саня Лихачёв", "487463175": "Вадим Влахко",
-    "405742979": "Семён Неверов", "377672278": "Серёга Пономарёв", "1021394934": "Юлия Пономарёва",
+    "405742979": "Семён Неверов", "377672278": "Серёга Пономарёв", "1021394934": "Юлия",
     "1167325690": "Макс Родионов", "154123037": "Владимир Шабалкин", "201499258": "Марсель",
     "438807980": "Макс Богородский", "577313928": "Артём", "588145813": "Ярослав Федоров",
     "110502345": "Вера Р.", "712563629": "Александр Сторублевый", "116674374": "Владимир",
@@ -70,7 +70,7 @@ def course(pid, ch, **kw):
     people[pid]["courses"][ch] = kw
 
 
-def award(pid, ch, title, desc="", kind="award"):
+def award(pid, ch, title, desc="", kind="award", icon=""):
     title, desc = title.strip(), desc.strip()
     for a in people[pid]["awards"]:
         if a["ch"] == ch and a["t"].lower() == title.lower():  # орден, повторённый в наградном листе
@@ -78,8 +78,10 @@ def award(pid, ch, title, desc="", kind="award"):
                 a["d"] = desc
             if kind == "hall":
                 a["kind"] = "hall"
+            if icon and not a.get("i"):
+                a["i"] = icon
             return
-    people[pid]["awards"].append({"ch": ch, "t": title, "d": desc, "kind": kind})
+    people[pid]["awards"].append({"ch": ch, "t": title, "d": desc, "kind": kind, "i": icon})
 
 
 def mmss(s):
@@ -91,6 +93,8 @@ def mmss(s):
 app = (PREV / "PlankChallenge" / "app.js").read_text(encoding="utf-8")
 for k, tot, days, rec in re.findall(r"k: '(\w+)',.*?total:\s*'([\d:]+)',\s*days:\s*'(\d+)/30',\s*rec:\s*'([\d:]+)'", app):
     course(PLANK_KEYS[k], "plank", total=mmss(tot), days=int(days), max=mmss(rec), unit="sec")
+PLANK_EMO = {"Гран-при по сумме": "🏆", "Пацанский рекорд одного дня": "💪", "Чемпион постоянства": "📅",
+             "Камбэк сезона": "🔄", "Сэр Шаг-Назад": "🎩", "Падлы в помощь": "🦹"}
 for pid, t, d in [
     ("1021394934", "Гран-при по сумме", "Лидер по общему времени: 1:48:40 за 30/30. Финиш — 11:00."),
     ("487463175", "Пацанский рекорд одного дня", "Финальный заход на 8:00."),
@@ -99,7 +103,7 @@ for pid, t, d in [
     ("712563629", "Сэр Шаг-Назад", "За стиль и формулировки."),
     ("588145813", "Падлы в помощь", "27/30, рекорд 6:00 — весь рост благодаря падлам-мошенникам."),
 ]:
-    award(pid, "plank", t, d, "hall")
+    award(pid, "plank", t, d, "hall", PLANK_EMO[t])
 
 # ---------- СТУЛЬЧИК ----------
 line = (PREV / "ChairChallenge" / "index.html").read_text(encoding="utf-8").split("\n")[172]
@@ -113,21 +117,28 @@ for n, title in noms.items():
     pid = CHAIR_NAMES[n]
     if n in dost:
         tier = "высшей степени" if chair_days[pid] >= 30 else ("I степени" if chair_days[pid] >= 25 else "II степени")
-        award(pid, "chair", f"Сертификат «Достоявший», {tier}", f"«{title}»", "cert")
+        award(pid, "chair", f"Сертификат «Достоявший», {tier}", f"«{title}»", "cert", "🪑")
     else:
-        award(pid, "chair", "Сертификат усидчивости, II степени", f"«{title}»", "cert")
-award("24905927", "chair", "Особое отличие", "За героическое удержание стены между кормлениями.", "hall")
-for t, n, d in re.findall(r'title:"([^"]+)",name:"([^"]+)",val:"[^"]*",desc:"([^"]+)"', cs):
-    award(CHAIR_NAMES[n], "chair", t, d, "hall")
+        award(pid, "chair", "Сертификат усидчивости, II степени", f"«{title}»", "cert", "🧱")
+award("24905927", "chair", "Особое отличие", "За героическое удержание стены между кормлениями.", "hall", "🍼")
+CHAIR_ICON = {"crown": "👑", "stopwatch": "⏱️", "phoenix": "🔥"}
+for ic, t, n, d in re.findall(r'icon:"(\w+)",title:"([^"]+)",name:"([^"]+)",val:"[^"]*",desc:"([^"]+)"', cs):
+    award(CHAIR_NAMES[n], "chair", t, d, "hall", CHAIR_ICON.get(ic, "🏅"))
 dipl = re.findall(r'"([^"]+)"', cs[cs.index("diplomaNames="):cs.index("];", cs.index("diplomaNames="))])
 for n in dipl:
-    award(CHAIR_NAMES[n], "chair", "Диплом участника", "", "cert")
+    award(CHAIR_NAMES[n], "chair", "Диплом участника", "Сел к стене. Это уже немало.", "cert", "📜")
 
 # ---------- ОТЖИМАНИЯ ----------
 mx = json.loads((PREV / "PushUpsResults" / "src" / "matrix.json").read_text(encoding="utf-8"))
 for n, v in mx["m"].items():
     course(PUSH_NAMES[n], "pushups", total=v["total"], days=v["days"], max=max(x or 0 for x in v["vals"]), unit="reps",
-           test=v.get("test"))
+           test=v.get("test"), final=v["vals"][-1])  # день 30 = один подход до отказа
+PUSH_EMO = {"zol": "🥇", "plat": "💿", "stal": "🔩", "zhel": "⚙️", "bron": "🥉", "perv": "🎖️", "krov": "🩸", "d30": "📅",
+            "x2": "⏫", "gerakl": "🦁", "sotnya": "💯", "ruki": "🫨", "ogon": "🔥", "lenty": "🎞️", "arifm": "🧮",
+            "trev": "🚨", "molch": "🤐", "luna": "🌙", "liniya": "📏", "hrono": "⏱️", "otec": "👶", "zub": "🦷",
+            "kot": "🐈", "yavka": "🚪", "kpd": "⚡", "lampa": "🪔", "edin": "👑", "luchn": "🏹", "almaz": "💎",
+            "voda": "🏄", "prich": "🌱", "yazyk": "👅", "gum": "📜", "triyav": "🔁", "neprov": "❓", "orakul": "🔮",
+            "klesh": "🕷️", "inzh": "🛠️", "reliz": "🚀", "neuro": "🤖", "sluch": "🎲", "narez": "🔪", "otstup": "🏳️"}
 ns = {}
 exec((PREV / "PushUpsResults" / "src" / "content3.py").read_text(encoding="utf-8"), ns)
 for p in ns["PEOPLE"]:
@@ -135,10 +146,11 @@ for p in ns["PEOPLE"]:
     people[pid]["epithets"].append({"ch": "pushups", "t": p["epithet"].capitalize()})
     for code in p["ord"]:
         t, d = ns["ORDERS"][code]
-        award(pid, "pushups", t, d, "order")
+        award(pid, "pushups", t, d, "order", PUSH_EMO.get(code, "🎖️"))
 by_name = {p["name"]: PUSH_NAMES[p["key"]] for p in ns["PEOPLE"]}
+TITLE_EMO = {ns["ORDERS"][c][0].lower(): e for c, e in PUSH_EMO.items()}
 for pr in ns["PRIZES"]:
-    award(by_name[pr["w"]], "pushups", pr["t"].capitalize(), pr["d"], "hall")
+    award(by_name[pr["w"]], "pushups", pr["t"].capitalize(), pr["d"], "hall", TITLE_EMO.get(pr["t"].lower(), "🏅"))
 nick = collections.defaultdict(list)
 for t, w in ns["NICKNAMES"]:
     nick[by_name[w]].append(t)
@@ -154,9 +166,9 @@ start = next(i for i, l in enumerate(abs_lines) if l.startswith("const NOMS"))
 for l in abs_lines[start + 1:]:
     if l.startswith("];"):
         break
-    m = re.search(r't:"([^"]+)",tick:"(\w+)",sub:"([^"]+)"', l)
+    m = re.search(r'i:"([^"]+)",t:"([^"]+)",tick:"(\w+)",sub:"([^"]+)"', l)
     if m:
-        award(ABS_TICKS[m.group(2)], "abs", m.group(1), m.group(3), "hall")
+        award(ABS_TICKS[m.group(3)], "abs", m.group(2), m.group(4), "hall", m.group(1))
 
 # ---------- БЁРПИ ----------
 bd = json.loads((ROOT / "BurpeeChallengeResults" / "src" / "data.json").read_text(encoding="utf-8"))
@@ -170,18 +182,19 @@ for k in ["semen", "nikita", "vadim", "sasha", "lev", "vera", "alexander", "mars
     blk = tpl[i:j + 3]
     dx = re.search(r'dx:"([^"]+)"', blk).group(1)
     people[BURPEE_KEYS[k]]["epithets"].append({"ch": "burpee", "t": dx})
-    for t, desc in re.findall(r'\["[^"]*","([^"]+)","([^"]+)"\]', blk[blk.index("ach:"):]):
-        award(BURPEE_KEYS[k], "burpee", t, desc, "ach")
+    for ic, t, desc in re.findall(r'\["([^"]*)","([^"]+)","([^"]+)"\]', blk[blk.index("ach:"):]):
+        award(BURPEE_KEYS[k], "burpee", t, desc, "ach", ic)
 for pid in ("377672278", "1021394934"):
-    award(pid, "burpee", "Folie à deux", "Палата № 2: 30 из 30 совместных дней — одно и то же число.", "ach")
-    award(pid, "burpee", "Один секундомер на двоих", "11 дней — совпадение до секунды.", "ach")
-AMB = {"977313866": ["Пациент из будущего", "Нутрициолог", "Драма в трёх /skip"],
-       "24905927": ["Случайно", "Слишком много кислорода", "Отпуск", "Ортопед"],
-       "712563629": ["Так, всем привет!", "3,1 сек на бёрпи"], "148648420": ["Я вернулся"],
-       "282585544": ["Самодиагностика"]}
+    award(pid, "burpee", "Folie à deux", "Палата № 2: 30 из 30 совместных дней — одно и то же число.", "ach", "👫")
+    award(pid, "burpee", "Один секундомер на двоих", "11 дней — совпадение до секунды.", "ach", "⏱️")
+AMB = {"977313866": [("🕰️", "Пациент из будущего", "В первые сутки подписал отчёт «День 31»."), ("🪳", "Нутрициолог", "Тараканье молоко — белковая бомба."), ("🎭", "Драма в трёх /skip", "«Болит спина» → «всё ещё болеюшкин» → «плохо мне, плохо».")],
+       "24905927": [("🎲", "Случайно", "«9 за 35 — случайно»."), ("🌬️", "Слишком много кислорода", "Подышал на приседе, не понравилось."), ("🏖️", "Отпуск", "«Работаю 15 часов в неделю вместо 50»."), ("🦴", "Ортопед", "Предупредил коллег о судьбе их поясниц.")],
+       "712563629": [("👋", "Так, всем привет!", "Четыре визита."), ("⚡", "3,1 сек на бёрпи", "Лучший средний темп отделения.")],
+       "148648420": [("🔙", "Я вернулся", "Однажды, на 12-е сутки.")],
+       "282585544": [("🩺", "Самодиагностика", "«Сделал 7, понял, что капец не создан для спорта».")]}
 for pid, ts in AMB.items():
-    for t in ts:
-        award(pid, "burpee", t, "", "ach")
+    for ic, t, d in ts:
+        award(pid, "burpee", t, d, "ach", ic)
 
 # ---------- чат: сколько писал, сколько ему отвечал бот ----------
 ex = json.loads((ROOT / "ChatHistory_till_16_10_2026" / "result.json").read_text(encoding="utf-8"))

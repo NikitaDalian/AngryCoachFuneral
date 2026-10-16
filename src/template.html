@@ -146,6 +146,7 @@ section{padding-block:clamp(64px,10vw,120px);scroll-margin-top:56px;position:rel
 
 /* ---------- LEDGER OF TORMENT ---------- */
 .ledger{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr));border-top:2px solid var(--ink);background:var(--paper)}
+@media (max-width:600px){.ledger{grid-template-columns:repeat(2,minmax(0,1fr))}.ledger div{padding:16px 12px}.ledger b{font-size:var(--t-xl)}}
 .ledger div{padding:22px 20px 20px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);display:grid;gap:8px;align-content:start}
 .ledger b{font:400 var(--t-2xl)/1 var(--f-ins);color:var(--ink)}
 .ledger p{margin:0;font:400 var(--t-xs)/1.5 var(--f-ui);color:var(--ink-2)}
@@ -285,9 +286,9 @@ footer .wrap{display:grid;gap:6px}
 .awards .grp{display:grid;gap:8px}
 .awards .grp>span{font:600 .75rem/1.2 var(--f-ui);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 .medals{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,15rem),1fr));gap:8px}
-.md{display:grid;grid-template-columns:30px minmax(0,1fr);gap:2px 10px;align-items:start;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
-.md i{grid-row:span 2;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#f3dcaa,#c99d5e 50%,#8a6533 85%);box-shadow:inset 0 0 0 2px #f6e2b3aa}
-.md.hall i{background:radial-gradient(circle at 35% 30%,#e7a9c6,#8f3a62 55%,#4f1730 90%)}
+.md{display:grid;grid-template-columns:44px minmax(0,1fr);gap:2px 12px;align-items:center;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:10px 12px}
+.md i{grid-row:span 2;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:22px;line-height:1;background:radial-gradient(circle at 35% 30%,#fbf0d4,#e2c48a 55%,#b88d4f 90%);box-shadow:inset 0 0 0 2px #fff6dd,inset 0 0 0 4px #b88d4f88,0 4px 10px -6px #5a3d18}
+.md.hall i{background:radial-gradient(circle at 35% 30%,#f6d6e4,#d7a3bb 55%,#9c5577 92%);box-shadow:inset 0 0 0 2px #fff0f6,inset 0 0 0 4px #8f3a6288,0 4px 10px -6px #4f1730}
 .md b{font:600 var(--t-xs)/1.3 var(--f-ui);color:var(--ink)}
 .md small{font:400 .78rem/1.45 var(--f-ui);color:var(--ink-2)}
 .play-md .md{animation:pop .45s var(--ease) both;animation-delay:calc(var(--i)*35ms + 120ms)}
@@ -300,6 +301,22 @@ footer .wrap{display:grid;gap:6px}
 .pager button span{font:600 .7rem/1.2 var(--f-ui);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
 .pager button b{font:600 var(--t-xs)/1.3 var(--f-ui);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pager .nx{text-align:right;margin-left:auto}
+.courses a{color:inherit;text-decoration:none;display:grid;gap:4px;align-content:start;padding:12px 12px 10px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);transition:background .2s}
+.courses a:hover{background:#f6f1e6}
+.courses a em{font:600 .7rem/1.2 var(--f-ui);font-style:normal;color:var(--porph);margin-top:2px}
+.bustw{display:grid;grid-template-rows:1fr auto;gap:8px;min-width:0}
+.bustw .bust{height:100%}
+.blink{justify-self:center;font:600 var(--t-xs)/1.2 var(--f-ui);color:var(--porph);text-decoration:none;padding:6px 10px;border-radius:3px}
+.blink:hover{background:var(--porph-soft)}
+.archive{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.archive{grid-template-columns:repeat(auto-fit,minmax(min(100%,15rem),1fr))}}
+.arc{display:grid;gap:8px;align-content:start;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:20px 20px 18px;transition:transform .35s var(--ease),border-color .3s,box-shadow .35s var(--ease)}
+.arc:hover{transform:translateY(-4px);border-color:var(--bronze);box-shadow:0 20px 34px -24px #2b1d0f80}
+.arc .rn{font:400 var(--t-xl)/1 var(--f-ins);color:var(--bronze-tx)}
+.arc b{font:400 var(--t-lg)/1.15 var(--f-ins);letter-spacing:.03em;text-transform:uppercase}
+.arc span{font:500 var(--t-xs)/1.4 var(--f-ui);color:var(--ink-3)}
+.arc p{margin:0;font:400 var(--t-xs)/1.5 var(--f-text);color:var(--ink-2)}
+.arc em{font:600 var(--t-xs)/1.2 var(--f-ui);font-style:normal;color:var(--porph);margin-top:4px}
 
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-delay:0ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
@@ -346,7 +363,8 @@ footer .wrap{display:grid;gap:6px}
     <a href="#triumph"><b>IV</b>Триумф</a>
     <a href="#wreaths"><b>V</b>Венки</a>
     <a href="#testament"><b>VI</b>Завещание</a>
-    <a href="#last"><b>VII</b>Последнее слово</a>
+    <a href="#archive"><b>VII</b>Архив</a>
+    <a href="#last"><b>VIII</b>Последнее слово</a>
   </div>
 </nav>
 
@@ -446,12 +464,22 @@ footer .wrap{display:grid;gap:6px}
       </div>
     </div>
   </section>
+  <section id="archive">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">VII · Архив отделения</span>
+        <h2>Летописи курсов</h2>
+        <p class="lead">Каждый курс получил свои итоги. Там подробности по дням, все номинации и всё, что сюда не влезло.</p>
+      </div>
+      <div class="archive reveal" id="archiveList"></div>
+    </div>
+  </section>
 </main>
 
 <section id="last" class="finale">
   <div class="wrap">
     <div class="sec-head">
-      <span class="eyebrow">VII · Последнее слово</span>
+      <span class="eyebrow">VIII · Последнее слово</span>
       <h2>Тренер</h2>
     </div>
     <div class="phone" id="phone">
@@ -467,6 +495,7 @@ footer .wrap{display:grid;gap:6px}
   <div class="ticker" aria-label="Реплики Тренера">
     <div class="row"><div class="track" id="tk1"></div></div>
     <div class="row"><div class="track" id="tk2"></div></div>
+    <div class="row"><div class="track" id="tk3"></div></div>
   </div>
 </section>
 <footer><div class="wrap"><span>Спорт 35± · планка · стульчик · отжимания · пресс · бёрпи · 2026</span><span>Основание: переписка чата и итоги пяти курсов. Цитаты подлинные.</span></div></footer>
@@ -550,6 +579,15 @@ const LAST=[
 ];
 const FEM=new Set(["1021394934","110502345","516053955","212742635","56401752","253086756","471200964"]);
 const CH=[["plank","Планка","sec"],["chair","Стульчик","sec"],["pushups","Отжимания","reps"],["abs","Пресс","reps"],["burpee","Бёрпи","reps"]];
+const LAND={
+ plank:{u:"https://nikitadalian.github.io/PlankChallenge/",t:"Итоги планки",d:"22.04–21.05 · 23 человека · 18 часов",p:"Подиум, зал славы, персональные карточки и полная таблица тридцати дней."},
+ chair:{u:"https://nikitadalian.github.io/ChairChallenge/",t:"Великое Сидение",d:"25.05–23.06 · 22 человека · 19,5 часа",p:"Сертификаты достоявших, кривая выживаемости и зал славы капшенов."},
+ pushups:{u:"https://nikitadalian.github.io/PushUpsResults/",t:"Хроника ковровых побоищ",d:"29.06–28.07 · 22 человека · 32 804",p:"Пантеон, ордена, мифы о каждом и прозвища, которые получил Тренер."},
+ abs:{u:"https://nikitadalian.github.io/ABSChallengeResults/",t:"Биржа Пресса",d:"03.08–01.09 · 14 человек · 26 767",p:"Котировки, досье на каждого эмитента, дивиденды славы и мемы сезона."},
+ burpee:{u:"https://nikitadalian.github.io/BurpeeChallengeResults/",t:"ПНД № 31",d:"09.09–09.10 · 15 человек · 5 984",p:"Медкарты, диагнозы, записи лечащего врача и живая ЭКГ отделения."},
+ bets:{u:"https://nikitadalian.github.io/PushUpsBets/",t:"Тотализатор «Форсаж»",d:"финал отжиманий · ставки",p:"Кто на кого ставил и кто угадал. Верховный оракул внутри."}};
+const BKEY={"405742979":"semen","23942556":"nikita","487463175":"vadim","377672278":"palata","1021394934":"palata","156212094":"sasha","58811221":"lev","110502345":"vera","2897263":"alexander","201499258":"marsel","1167325690":"max"};
+const ERA_KEYS=["plank","chair","pushups","abs","burpee"];
 const CHN=Object.fromEntries(CH.map(c=>[c[0],c[1]]));
 
 /* ================== HELPERS ================== */
@@ -589,7 +627,7 @@ function branch(cx,cy,R,start,dir,span,n,lr,fill,anim){
 
 /* ================== SECTIONS ================== */
 $("#deeds").innerHTML=DEEDS.map((d,i)=>`<li data-r="${ROMAN(i+1)}"><span>${d}</span></li>`).join("")+`<li class="last" data-r="${ROMAN(DEEDS.length+1)}"><span>На этом мои деяния окончены. Спины не круглить.</span></li>`;
-$("#busts").innerHTML=ERAS.map((e,i)=>`<button class="bust" data-i="${i}"><span class="rn">${e.rn}</span><b>${e.name}</b><span class="era">${e.era}</span><span class="face">${esc(e.face)}</span><dl><dt>Научился</dt><dd>${esc(e.learn)}</dd><dt>Болел</dt><dd>${esc(e.ill)}</dd></dl></button>`).join("");
+$("#busts").innerHTML=ERAS.map((e,i)=>`<div class="bustw"><button class="bust" data-i="${i}"><span class="rn">${e.rn}</span><b>${e.name}</b><span class="era">${e.era}</span><span class="face">${esc(e.face)}</span><dl><dt>Научился</dt><dd>${esc(e.learn)}</dd><dt>Болел</dt><dd>${esc(e.ill)}</dd></dl></button><a class="blink" href="${LAND[ERA_KEYS[i]].u}" target="_blank" rel="noopener">${LAND[ERA_KEYS[i]].t} →</a></div>`).join("");
 function evo(sel=-1){
   $("#evo").innerHTML=EVO.map(m=>{
     const W=220,H=96,pad=16,mx=Math.max(...m.v),X=i=>pad+(W-pad*2)*i/4,Y=v=>H-22-(H-40)*v/mx;
@@ -607,6 +645,7 @@ $("#laurels").innerHTML=LAURELS.map(([t,w,d])=>`<div class="lau">${laurelSvg}<b>
 const ORDER=PEOPLE.map(p=>p.id);
 $("#procession").innerHTML=PEOPLE.map(p=>`<button class="pc" data-id="${p.id}"><span class="coin sm">${initials(p.name)}</span><span><b>${esc(p.name)}</b><span class="pips">${CH.map(c=>`<i class="${p.courses[c[0]]?"on":""}"></i>`).join("")}</span></span><span class="aw num">${p.awards.length}</span></button>`).join("");
 $("#wreathList").innerHTML=WREATHS.map((t,i)=>`<div class="wr" style="--i:${i}"><svg viewBox="0 0 140 140" aria-hidden="true">${branch(70,70,48,95,1,175,20,12,"#4f5d33",false)}${branch(70,70,48,85,-1,175,20,12,"#5f6f3c",false)}${branch(70,70,40,100,1,165,16,8,"#3d4a28",false)}${branch(70,70,40,80,-1,165,16,8,"#465530",false)}${[200,250,300,340,20].map((a,k)=>`<circle cx="${(70+48*Math.cos(a*Math.PI/180)).toFixed(1)}" cy="${(70+48*Math.sin(a*Math.PI/180)).toFixed(1)}" r="4.6" fill="${k%2?"#ece6dc":"#8f3a62"}"/>`).join("")}</svg><div class="band">${esc(t)}</div></div>`).join("");
+$("#archiveList").innerHTML=[...ERA_KEYS,"bets"].map((k,i)=>{const L=LAND[k];return `<a class="arc" href="${L.u}" target="_blank" rel="noopener"><span class="rn">${i<5?ROMAN(i+1):"✦"}</span><b>${L.t}</b><span>${L.d}</span><p>${L.p}</p><em>Открыть →</em></a>`;}).join("");
 $("#act").innerHTML=ACT.map(a=>`<li>${esc(a)}</li>`).join("");
 
 /* ================== OBSERVERS ================== */
@@ -633,11 +672,8 @@ function fillTrack(track,lines,pxPerSec){
 }
 (function(){
   const pool=shuffle(BOTLINES.length?BOTLINES:["Понял, ничего не меняю."]);
-  const half=Math.ceil(pool.length/2);
-  fillTrack($("#tk1"),pool.slice(0,half),55);
-  const t2=$("#tk2"); fillTrack(t2,pool.slice(half).length?pool.slice(half):pool,48);
-  if(!reduce) t2.style.animationDirection="reverse";
-  requestAnimationFrame(()=>{ if(!reduce) t2.style.animationDirection="reverse"; });
+  const n=Math.ceil(pool.length/3);
+  [["#tk1",0,82,false],["#tk2",1,70,true],["#tk3",2,90,false]].forEach(([sel,k,v,rev])=>{const t=$(sel);fillTrack(t,pool.slice(k*n,(k+1)*n),v);if(rev&&!reduce)requestAnimationFrame(()=>requestAnimationFrame(()=>{t.style.animationDirection="reverse";}));});
 })();
 
 /* ================== FINALE ================== */
@@ -658,14 +694,20 @@ function fillTrack(track,lines,pxPerSec){
 
 /* ================== PERSONAL CARD ================== */
 const sheet=$("#sheet"),panel=$("#panel"),scroller=$("#scroller");let cur=null,lastFocus=null,pushed=false,closing=false;
+function recLabel(k,c){
+  if(k==="plank"||k==="chair") return "рекорд "+hms(c.max);
+  if(k==="pushups") return c.final?`подход до отказа: ${c.test?c.test+" → ":""}${c.final}`:(c.test?`тест до отказа: ${c.test}`:`лучший день ${fmt(c.max)}`);
+  if(k==="burpee") return "рекорд "+c.max;
+  return "лучший день "+fmt(c.max);
+}
 function card(id){
   const p=byId[id], n=ORDER.indexOf(id);
   $("#barT").textContent=`${FEM.has(id)?"Воспитанница":"Воспитанник"} · ${n+1} из ${ORDER.length}`;
   const lines=(TICK[id]||[]);
-  const courses=CH.map(([k,nm,u])=>{const c=p.courses[k];return c?`<div><span>${nm}</span><b class="num">${u==="sec"?hms(c.total):fmt(c.total)}</b><small>${c.days} дн · макс ${u==="sec"?hms(c.max):c.max}</small></div>`:`<div class="off"><span>${nm}</span><b>—</b><small>не был</small></div>`;}).join("");
+  const courses=CH.map(([k,nm,u])=>{const c=p.courses[k];const href=LAND[k].u+(k==="burpee"&&BKEY[id]?"#"+BKEY[id]:"");return c?`<a href="${href}" target="_blank" rel="noopener" title="${LAND[k].t}"><span>${nm}</span><b class="num">${u==="sec"?hms(c.total):fmt(c.total)}</b><small>${c.days} дн · ${recLabel(k,c)}</small><em>${k==="burpee"&&BKEY[id]?"медкарта":LAND[k].t} →</em></a>`:`<div class="off"><span>${nm}</span><b>—</b><small>не был</small></div>`;}).join("");
   const grp={};p.awards.forEach(a=>(grp[a.ch]=grp[a.ch]||[]).push(a));
   let k=0;
-  const aw=CH.filter(c=>grp[c[0]]).map(([c,nm])=>`<div class="grp"><span>${nm}</span><div class="medals">${grp[c].map(a=>`<div class="md ${a.kind==="hall"?"hall":""}" style="--i:${k++}"><i></i><b>${esc(a.t)}</b><small>${esc(a.d||"")}</small></div>`).join("")}</div></div>`).join("");
+  const aw=CH.filter(c=>grp[c[0]]).map(([c,nm])=>`<div class="grp"><span>${nm}</span><div class="medals">${grp[c].map(a=>`<div class="md ${a.kind==="hall"?"hall":""}" style="--i:${k++}"><i aria-hidden="true">${a.i||"🏅"}</i><b>${esc(a.t)}</b><small>${esc(a.d||"")}</small></div>`).join("")}</div></div>`).join("");
   const nicks=(NICKS[id]||[]).concat(p.nicknames||[]).filter((v,i,a)=>a.indexOf(v)===i);
   const prev=ORDER[(n-1+ORDER.length)%ORDER.length], next=ORDER[(n+1)%ORDER.length];
   $("#page").innerHTML=`
@@ -676,7 +718,7 @@ function card(id){
     ${aw?`<div class="blk"><span class="eyebrow">Награды · ${p.awards.length}</span><div class="awards">${aw}</div></div>`:""}
     ${nicks.length?`<div class="blk"><span class="eyebrow">Как ${FEM.has(id)?"она называла":"он называл"} Тренера</span><div class="nicks">${nicks.map(x=>`<span>${esc(x)}</span>`).join("")}</div></div>`:""}
     <div class="pager"><button data-go="${prev}" data-dir="-1"><span>← Предыдущий</span><b>${esc(byId[prev].name)}</b></button><button class="nx" data-go="${next}" data-dir="1"><span>Следующий →</span><b>${esc(byId[next].name)}</b></button></div>`;
-  if(lines.length) fillTrack($("#ptrack"),shuffle(lines),60);
+  if(lines.length) fillTrack($("#ptrack"),shuffle(lines),85);
   if(!reduce) $("#page .awards")?.classList.add("play-md");
   $("#page").querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go,+b.dataset.dir)));
 }
